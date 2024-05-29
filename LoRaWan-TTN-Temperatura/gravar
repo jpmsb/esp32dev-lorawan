@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# APPEUI e APPKEY para conexão na TTN
+appeui=""
+appkey=""
+
+# Intervalos em segundos
+intervalo_envio=60           # 1 minuto entre cada envio
+intervalo_desconectado=300   # 5 minutos de limitar máximo de desconexão
+
+if [ -z "$appeui" ] || [ -z "$appkey" ]; then
+    echo "É preciso preencher o valor de APPEUI e APPKEY."
+    exit 1
+fi
+
+APPEUI="${appeui}"                                  \
+APPKEY="${appkey}"                                  \
+INTERVALO_ENVIO="${intervalo_envio}"                \
+INTERVALO_DESCONECTADO="${intervalo_desconectado}"  \
+pio run -t upload  &&                               \
+pio device monitor --baud 115200 --echo -f send_on_enter -f colorize

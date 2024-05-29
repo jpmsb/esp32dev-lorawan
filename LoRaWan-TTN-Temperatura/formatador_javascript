@@ -1,0 +1,33 @@
+function decodeUplink(input) {
+  var hexString = bytesToHex(input.bytes);
+  var stringValue = hexToString(hexString);
+  var temperature = parseFloat(stringValue);
+
+  return {
+    data: {
+      temperatura: temperature
+    },
+    warnings: [],
+    errors: []
+  };
+}
+
+// Função para converter bytes para string hexadecimal
+function bytesToHex(bytes) {
+  var hex = [];
+  for (var i = 0; i < bytes.length; i++) {
+    var current = bytes[i] < 0 ? bytes[i] + 256 : bytes[i];
+    hex.push((current >>> 4).toString(16));
+    hex.push((current & 0xF).toString(16));
+  }
+  return hex.join("");
+}
+
+// Função para converter string hexadecimal para string ASCII
+function hexToString(hex) {
+  var str = '';
+  for (var i = 0; i < hex.length; i += 2) {
+    str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+  }
+  return str;
+}
