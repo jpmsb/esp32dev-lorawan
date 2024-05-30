@@ -38,6 +38,8 @@ O binário é instalado em `~/.local/bin/pio`.
 
 ## Envio de temperatura para a TTN
 
+Kit de desenvolvimento utilizado: [IoT DevKit - LoRaWAN](https://www.robocore.net/lorawan/iot-devkit-lorawan)
+
 ### Preparativos
 
 Primeiramente, clone esse repositorio:
