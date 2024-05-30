@@ -12,27 +12,33 @@ Repositório com um código de exemplo de uso do LoRa no IoT DevKit - LoRaWAN
 
 É necessário ter o PlatformIO instalado de forma a poder compilar e gravar na placa os códigos de exemplo.
 
-Caso esteja usando a distribuição Linux **openSUSE Tumbleweed**, é possível instalar o PlatformIO com o seguinte comando:
+ - Caso esteja usando a distribuição Linux **openSUSE Tumbleweed**, é possível instalar o PlatformIO com o seguinte comando:
 
-```bash
-sudo zypper install python311-platformio
-```
+    ```bash
+    sudo zypper install python311-platformio
+    ```
 
-Caso esteja usando outra distribuição Linux:
+    Você pode verificar a instalação com o comando:
 
- -  para Python 3.11 ou superior:
+    ```bash
+    pio --version
+    ```
 
-```bash
-pipx install platformio
-```
+ - Caso esteja usando outra distribuição Linux:
 
- - para Python 3.10 ou inferior:
+    -  para Python 3.11 ou superior:
+      
+        ```bash
+        pipx install platformio
+        ```
 
-```bash
-pip install platformio
-```
+    - para Python 3.10 ou inferior:
 
-O binário é instalado em `~/.local/bin/pio`.
+        ```bash
+        pip install platformio
+        ```
+
+    O binário é instalado em `~/.local/bin/pio`.
 
 [Neste link](https://github.com/jpmsb/preparando-computador-para-engenharia-de-tele/blob/main/guias-de-aplicacoes/PlatformIO.md) há algumas dicas sobre o uso do PlatformIO que podem ser úteis.
 
