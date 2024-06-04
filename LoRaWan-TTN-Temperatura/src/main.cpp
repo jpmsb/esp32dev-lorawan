@@ -139,7 +139,7 @@ void setup() {
   }
 
   //Requisita conexao com a rede
-  Serial.println(F("Conectando a Rede"));
+  Serial.println(F("Conectando a Rede...\n"));
   lorawan.join();
     
 }
@@ -200,7 +200,9 @@ void loop() {
 
     // Imprime um "." a cada 5 segundos
     if(intervalo < millis()){
-      Serial.println('.');
+      Serial.print("Tempo restante: ");
+      Serial.print((tempo_desconectado - millis()) / 1000);
+      Serial.print(" segundos     \r");
       intervalo = millis() + 5000; // Atualiza a contagem de tempo
     }
   }
