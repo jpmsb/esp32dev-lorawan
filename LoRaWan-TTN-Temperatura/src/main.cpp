@@ -184,10 +184,10 @@ void loop() {
       resposta = lorawan.sendT(1, mensagem2); //Envio como texto
 
       intervalo = millis() + TEMPO_ESPERA; //Atualiza a contagem de tempo
-      
-      digitalWrite(13, HIGH);
-      delay(500);
     }
+
+    delay(500);
+
   } else {    // Se o modulo nao estiver conectado
     // Caso o módulo tenha perdido a conexão, reinicia o dispositivo
     if (reconnect){
