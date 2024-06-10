@@ -65,6 +65,7 @@ bool reconnect = false;
 
 void setup() {
   pinMode(13, OUTPUT);
+  digitalWrite(13, LOW);
 
   //Inicia o monitor serial e imprime o cabecalho
   Serial.begin(115200);
@@ -189,15 +190,11 @@ void loop() {
     delay(500);
 
   } else {    // Se o modulo nao estiver conectado
-    // Caso o módulo tenha perdido a conexão, reinicia o dispositivo
-    if (reconnect){
-      Serial.println(F("Reiniciando o dispositivo..."));
-      digitalWrite(13, LOW);
-      ESP.restart();
-    }
+    digitalWrite(13, LOW);
 
-    // Caso o módulo esteja desconectado por mais do que 5 minutos, reinicia o dispositivo
-    if(tempo_desconectado < millis()){
+    // Caso o módulo esteja desconectado por mais do que 5 minutos,
+    // ou tenha perdido a conexão, reinicia o dispositivo
+    if ((tempo_desconectado < millis()) || (reconnect)){
       Serial.println(F("Reiniciando o dispositivo..."));
       ESP.restart();
     }
@@ -210,7 +207,6 @@ void loop() {
       intervalo = millis() + 5000; // Atualiza a contagem de tempo
     }
 
-    digitalWrite(13, LOW);
     delay(500);
   }
 
