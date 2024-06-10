@@ -63,7 +63,9 @@ unsigned long tempo_desconectado = millis() + intervalo_desconectado; // 1 minut
 
 bool reconnect = false;
 
-void setup() {  
+void setup() {
+  pinMode(13, OUTPUT);
+
   //Inicia o monitor serial e imprime o cabecalho
   Serial.begin(115200);
   Serial.println(F("--- SMW_SX1276M0 Bridge ---"));
@@ -183,12 +185,14 @@ void loop() {
 
       intervalo = millis() + TEMPO_ESPERA; //Atualiza a contagem de tempo
       
+      digitalWrite(13, HIGH);
+      delay(500);
     }
   } else {    // Se o modulo nao estiver conectado
     // Caso o módulo tenha perdido a conexão, reinicia o dispositivo
     if (reconnect){
-      reconnect = false;
       Serial.println(F("Reiniciando o dispositivo..."));
+      digitalWrite(13, LOW);
       ESP.restart();
     }
 
@@ -205,9 +209,13 @@ void loop() {
       Serial.print(" segundos     \r");
       intervalo = millis() + 5000; // Atualiza a contagem de tempo
     }
+
+    digitalWrite(13, LOW);
+    delay(500);
   }
 
-  delay(1000);
+  digitalWrite(13, HIGH);
+  delay(500);
 }
 
 void event_handler(Event type){ 
