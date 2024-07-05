@@ -41,6 +41,10 @@ CommandResponse resposta;
 const char appeui[] = APPEUI; // Application EUI
 const char appkey[] = APPKEY; // Application Key
 
+// Variável de reconfiguração do módulo
+const char deveui[] = DEVEUI;             // Deveui do modulo
+const char reconfigurar[] = RECONFIGURAR; // Gatilho de reconfiguração
+
 // Variáveis de tempo obtidas da variável de ambiente
 const char intervalo_envio_char[] = INTERVALO_ENVIO;              // Intervalo de envio
 unsigned int intervalo_envio = atoi(intervalo_envio_char) * 1000; // Intervalo de envio convertido
@@ -86,9 +90,64 @@ void setup() {
   //Inicia a comunicacao serial com o modulo
   LoRaSerial.begin(115200, SERIAL_8N1, RXD2, TXD2);
 
+  // Reconfigura o módulo definindo
+  // região, canais ativos e o DevEUI
+  if (strcmp(reconfigurar, "true") == 0){
+    Serial.println(F("Reconfigurando o módulo..."));
+
+    // Configura o módulo para a região australiana
+    if (LoRaSerial.available()){
+      Serial.write(LoRaSerial.read());
+    }
+    Serial.write("AT+REGION 1\n");
+
+    // Configura o DEV EUI
+    if (LoRaSerial.available()){
+      Serial.write(LoRaSerial.read());
+    }
+    char comando[] = "AT+APPEUI                          ";
+    sprintf(comando, "AT+DEVEUI %s\n", deveui);
+    Serial.write(comando);
+
+    // Ajusta os canais de comunicação
+    int i = 0;
+    unsigned long reconecta = 1000; // 10 segundos
+    while (i < 72){
+        // //Recebe as informacoes do modulo e exibe no monitor serial
+        if (LoRaSerial.available()){
+          Serial.write(LoRaSerial.read());
+        }
+
+        // //Recebe as informacoes do monitor serial e envia para o modulo
+        // if(Serial.available()){
+        //   LoRaSerial.write(Serial.read());
+        // }
+
+        char comandoSend[] = "AT+CH 0 status=0    ";
+        char quebraLinha[] = "\n";
+        if (reconecta < millis()){
+          if (15 < i || i < 8){
+            sprintf(comandoSend, "AT+CH %d status=0", i);
+            Serial.write(comandoSend);
+            LoRaSerial.print(comandoSend);
+            LoRaSerial.print(quebraLinha);
+            reconecta = millis() + 1000;
+          } else {
+            sprintf(comandoSend, "AT+CH %d status=1", i);
+            Serial.write(comandoSend);
+            LoRaSerial.print(comandoSend);
+            LoRaSerial.print(quebraLinha);
+            reconecta = millis() + 1000;
+          }
+          i++;
+        }
+    }
+    delay(2000);
+  }
+
   //Associa a funcao que verifica a conexao do modulo ao objeto "lorawan"
   lorawan.event_listener = &event_handler;
-  Serial.println(F("Evento configurado."));
+  Serial.println(F("\nEvento configurado."));
 
   //Requisita e imprime o Device EUI do modulo
   char deveui[16];
@@ -217,7 +276,7 @@ void loop() {
 void event_handler(Event type){ 
   // Verifica se o modulo esta conectado e atualiza essa informacao
   if(type == Event::JOINED){
-    Serial.println(F("Conectado!"));
+    Serial.println(F("\nConectado!"));
     reconnect = true;
   }
 }
