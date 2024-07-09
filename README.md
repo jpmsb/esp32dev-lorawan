@@ -70,6 +70,14 @@ appkey="ABCDEFGHIJKLMNOPQRSTUVWXYZ123456"
 
 O valor de `appeui` deve conter **16** caracteres e o valor de `appkey` deve conter **32** caracteres.
 
+Caso seja necessário, você pode reconfigurar o módulo LoRa ajustando a variável `reconfigurar` para "true" e ajustando a variável `deveui` para um indentificador no formato hexadecimal de **16** caracteres. Na reconfiguração, a região de frequências é ajustada para a Austrália e os oito canais habilitados são do grupo FSB2, utilizado pela TTN. Por fim, o identificador do dispositivo é ajustado para o definido.
+
+```bash
+# Variáveis de reconfiguração
+deveui=""
+reconfigurar=""
+```
+
 Opcionalmente, você pode ajustar o intervalo em que a temperatura é envada para a TTN ajustando a variável `intervalo_envio` e pode ajustar o tempo limite para reconexão ajustando a variável `intervalo_desconectado`. Abaixo, são mostrados os valores já definidos para essas variáveis:
 
 ```
