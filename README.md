@@ -15,7 +15,7 @@ Repositório com um código de exemplo de uso do LoRa no IoT DevKit - LoRaWAN
  - Caso esteja usando a distribuição Linux **openSUSE Tumbleweed**, é possível instalar o PlatformIO com o seguinte comando:
 
     ```bash
-    sudo zypper install python311-platformio
+    sudo zypper install python313-platformio
     ```
 
     Você pode verificar a instalação com o comando:
